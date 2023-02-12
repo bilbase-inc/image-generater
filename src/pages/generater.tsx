@@ -2,24 +2,25 @@ import Head from "next/head";
 import { ChangeEvent, createRef, useEffect, useState } from "react";
 import styles from "~/styles/Home.module.css";
 
+const domain = process.env.NODE_ENV === "production" ? "/image_generater" : "";
 const imagePaths = [
-  "/background-images/gradient-blue.png",
-  "/background-images/gradient-green.png",
-  "/background-images/gradient-orange.png",
-  "/background-images/gradient-purple.png",
-  "/background-images/gradient-red.png",
-  "/background-images/gradient-yellow.png",
-  "/background-images/flurry-blue.png",
-  "/background-images/flurry-green.png",
-  "/background-images/flurry-red.png",
-  "/background-images/grid-blue.png",
-  "/background-images/grid-gray.png",
-  "/background-images/grid-green.png",
-  "/background-images/polyhedron-blue.png",
-  "/background-images/polyhedron-cold.png",
-  "/background-images/polyhedron-green.png",
-  "/background-images/polyhedron-orange.png",
-  "/background-images/polyhedron-rainbow.png",
+  `${domain}/background-images/gradient-blue.png`,
+  `${domain}/background-images/gradient-green.png`,
+  `${domain}/background-images/gradient-orange.png`,
+  `${domain}/background-images/gradient-purple.png`,
+  `${domain}/background-images/gradient-red.png`,
+  `${domain}/background-images/gradient-yellow.png`,
+  `${domain}/background-images/flurry-blue.png`,
+  `${domain}/background-images/flurry-green.png`,
+  `${domain}/background-images/flurry-red.png`,
+  `${domain}/background-images/grid-blue.png`,
+  `${domain}/background-images/grid-gray.png`,
+  `${domain}/background-images/grid-green.png`,
+  `${domain}/background-images/polyhedron-blue.png`,
+  `${domain}/background-images/polyhedron-cold.png`,
+  `${domain}/background-images/polyhedron-green.png`,
+  `${domain}/background-images/polyhedron-orange.png`,
+  `${domain}/background-images/polyhedron-rainbow.png`,
 ];
 const canvasWidth = 1280;
 const canvasHeight = 720;
@@ -155,7 +156,12 @@ export default function Generater() {
                 <img
                   src={path}
                   alt={path}
-                  style={{ width: '256px', height: '144px', objectFit: "contain", cursor: "pointer" }}
+                  style={{
+                    width: "256px",
+                    height: "144px",
+                    objectFit: "contain",
+                    cursor: "pointer",
+                  }}
                   onClick={() => {
                     imageInputRef.current!.value = "";
                     setInputImage(null);
@@ -212,7 +218,11 @@ export default function Generater() {
                 className="comp"
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <img alt="icon" src={png} style={{width: '768px', height: '432px'}}/>
+                <img
+                  alt="icon"
+                  src={png}
+                  style={{ width: "768px", height: "432px" }}
+                />
               </div>
             )}
           </div>
