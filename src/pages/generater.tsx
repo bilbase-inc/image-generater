@@ -1,5 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
-import { ChangeEvent, createRef, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  createRef,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import styles from "~/styles/Home.module.css";
 
 const domain = process.env.NODE_ENV === "production" ? "/image_generater" : "";
@@ -35,70 +42,106 @@ export default function Generater() {
   const [png, setPng] = useState<string | null>(null);
   const imageInputRef = createRef<HTMLInputElement>();
 
-  const drawText = (ctx: CanvasRenderingContext2D) => {
-    const lines = inputText.split("\n");
-    var fontSize = 100;
-    ctx.fillStyle = textColor;
-    ctx.font = `bold ${fontSize}px Robot, "BIZ UDPGothic", sans-serif`;
-    fontSize =
-      Math.max(...lines.map((line) => ctx.measureText(line).width)) <=
-      canvasWidth * 0.8
-        ? 100
-        : 80;
-    ctx.font = `bold ${fontSize}px Robot, "BIZ UDPGothic", sans-serif`;
-    const lineHeight = 1.25;
-    for (var i = 0; lines.length > i; i++) {
-      var addY = fontSize;
-      if (i) addY += fontSize * lineHeight * i;
-      ctx.fillText(
-        lines[i],
-        (canvasWidth - ctx.measureText(lines[i]).width) / 2,
-        canvasHeight / 2 - (fontSize * lineHeight * lines.length) / 2 + addY
-      );
-    }
+  const create2dCanvas = (): [
+    HTMLCanvasElement,
+    CanvasRenderingContext2D | null
+  ] => {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    return [canvas, canvas.getContext("2d")];
   };
 
-  useEffect(() => {
-    const canvasElem = document.createElement("canvas");
-    canvasElem.width = canvasWidth;
-    canvasElem.height = canvasHeight;
-    const ctx = canvasElem.getContext("2d");
-    if (ctx) {
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
-      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-      ctx.fillStyle = "#000";
-      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+  const configureCanvasContext = (
+    ctx: CanvasRenderingContext2D
+  ): CanvasRenderingContext2D => {
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    return ctx;
+  };
 
+  const drawText = useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      // テキスト各行を要素として配列に変換
+      const lines = inputText.split("\n");
+
+      let fontSize = 100;
+      const lineHeight = 1.25;
+      ctx.fillStyle = textColor;
+      const font = (_fontSize: number) =>
+        `bold ${_fontSize}px Robot, "BIZ UDPGothic", sans-serif`;
+      ctx.font = font(fontSize);
+
+      // いずれかの行でテキストが一定幅以上の場合はフォントサイズを縮小させる
+      fontSize =
+        Math.max(...lines.map((line) => ctx.measureText(line).width)) <=
+        canvasWidth * 0.8
+          ? 100
+          : 80;
+      ctx.font = font(fontSize);
+
+      for (const [index, line] of lines.entries()) {
+        // 特定の行の開始位置(Y軸)
+        let enterPositionY = fontSize;
+        if (index) enterPositionY += fontSize * lineHeight * index;
+
+        ctx.fillText(
+          line,
+          (canvasWidth - ctx.measureText(line).width) / 2,
+          canvasHeight / 2 -
+            (fontSize * lineHeight * lines.length) / 2 +
+            enterPositionY
+        );
+      }
+    },
+    [inputText, textColor]
+  );
+
+  const drawImage = useCallback(
+    (onloadCallback: (image: HTMLImageElement) => void) => {
+      const image = new Image();
+      if (selectedPath) {
+        image.src = selectedPath;
+      } else if (inputImage) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          // Canvas上に表示する
+          const imageSrc = reader.result;
+          if (imageSrc) image.src = imageSrc as string;
+        };
+        reader.readAsDataURL(inputImage);
+      }
+      image.onload = () => {
+        onloadCallback(image);
+      };
+    },
+    [inputImage, selectedPath]
+  );
+
+  useEffect(() => {
+    const [canvas, ctx] = create2dCanvas();
+    if (ctx) {
+      configureCanvasContext(ctx);
       if (selectedPath || inputImage) {
-        const image = new Image();
-        if (selectedPath) {
-          image.src = selectedPath;
-        } else if (inputImage) {
-          const reader = new FileReader();
-          reader.onload = function () {
-            // Canvas上に表示する
-            const imageSrc = reader.result;
-            if (imageSrc) image.src = imageSrc as string;
-          };
-          reader.readAsDataURL(inputImage);
-        }
-        image.onload = () => {
+        drawImage((image) => {
           ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
           drawText(ctx);
-          setPng(canvasElem.toDataURL());
-        };
+          setPng(canvas.toDataURL());
+        });
       }
       drawText(ctx);
-      setPng(canvasElem.toDataURL());
+      setPng(canvas.toDataURL());
     }
-  }, [selectedPath, inputImage, inputText, textColor]);
+  }, [drawImage, drawText, inputImage, selectedPath]);
 
   const handleDownload = () => {
     if (png) {
       let element = document.createElement("a");
       element.href = encodeURI(png);
-      element.download = "generated.png";
+      element.download = `generated-${new Date().getTime()}.png`;
       element.target = "_blank";
       element.click();
     }
