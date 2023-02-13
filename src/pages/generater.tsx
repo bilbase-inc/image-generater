@@ -39,13 +39,13 @@ export default function Generater() {
     const lines = inputText.split("\n");
     var fontSize = 100;
     ctx.fillStyle = textColor;
-    ctx.font = `bold ${fontSize}px "Source Sans Pro", "Noto Sans JP", sans-serif`;
+    ctx.font = `bold ${fontSize}px Robot, "BIZ UDPGothic", sans-serif`;
     fontSize =
       Math.max(...lines.map((line) => ctx.measureText(line).width)) <=
       canvasWidth * 0.8
         ? 100
         : 80;
-    ctx.font = `bold ${fontSize}px "Source Sans Pro", "Noto Sans JP", sans-serif`;
+    ctx.font = `bold ${fontSize}px Robot, "BIZ UDPGothic", sans-serif`;
     const lineHeight = 1.25;
     for (var i = 0; lines.length > i; i++) {
       var addY = fontSize;
