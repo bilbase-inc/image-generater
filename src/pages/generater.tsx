@@ -11,23 +11,24 @@ import styles from "~/styles/Home.module.css";
 
 const domain = process.env.NODE_ENV === "production" ? "/image_generater" : "";
 const imagePaths = [
-  `${domain}/background-images/gradient-blue.png`,
-  `${domain}/background-images/gradient-green.png`,
-  `${domain}/background-images/gradient-orange.png`,
-  `${domain}/background-images/gradient-purple.png`,
-  `${domain}/background-images/gradient-red.png`,
-  `${domain}/background-images/gradient-yellow.png`,
-  `${domain}/background-images/flurry-blue.png`,
-  `${domain}/background-images/flurry-green.png`,
-  `${domain}/background-images/flurry-red.png`,
-  `${domain}/background-images/grid-blue.png`,
-  `${domain}/background-images/grid-gray.png`,
-  `${domain}/background-images/grid-green.png`,
-  `${domain}/background-images/polyhedron-blue.png`,
-  `${domain}/background-images/polyhedron-cold.png`,
-  `${domain}/background-images/polyhedron-green.png`,
-  `${domain}/background-images/polyhedron-orange.png`,
-  `${domain}/background-images/polyhedron-rainbow.png`,
+  // `${domain}/background-images/gradient-blue.png`,
+  // `${domain}/background-images/gradient-green.png`,
+  // `${domain}/background-images/gradient-orange.png`,
+  // `${domain}/background-images/gradient-purple.png`,
+  // `${domain}/background-images/gradient-red.png`,
+  // `${domain}/background-images/gradient-yellow.png`,
+  // `${domain}/background-images/flurry-blue.png`,
+  // `${domain}/background-images/flurry-green.png`,
+  // `${domain}/background-images/flurry-red.png`,
+  // `${domain}/background-images/grid-blue.png`,
+  // `${domain}/background-images/grid-gray.png`,
+  // `${domain}/background-images/grid-green.png`,
+  // `${domain}/background-images/polyhedron-blue.png`,
+  // `${domain}/background-images/polyhedron-cold.png`,
+  // `${domain}/background-images/polyhedron-green.png`,
+  // `${domain}/background-images/polyhedron-orange.png`,
+  // `${domain}/background-images/polyhedron-rainbow.png`,
+  `${domain}/background-images/yoku-black.png`,
 ];
 const canvasWidth = 1280;
 const canvasHeight = 720;
@@ -167,12 +168,12 @@ export default function Generater() {
             }}
           >
             <p>背景画像を選択してください</p>
-            <button
+            {/* <button
               style={{ padding: "8px" }}
               onClick={() => imageInputRef.current?.click()}
             >
               画像をアップロードして使用
-            </button>
+            </button> */}
             {inputImage && <p>{inputImage.name}</p>}
             <input
               ref={imageInputRef}
