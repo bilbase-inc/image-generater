@@ -1,6 +1,6 @@
 # image_generater
 
-## [-> Visit](https://kawano-020.github.io/image_generater/)
+## [-> Visit]()
 
 ## Getting Started
 
