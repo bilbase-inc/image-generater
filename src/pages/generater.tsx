@@ -9,7 +9,7 @@ import {
 } from "react";
 import styles from "~/styles/Home.module.css";
 
-const domain = process.env.NODE_ENV === "production" ? "/image_generater" : "";
+const domain = process.env.NODE_ENV === "production" ? "/image-generater" : "";
 const imagePaths = [
   // `${domain}/background-images/gradient-blue.png`,
   // `${domain}/background-images/gradient-green.png`,
