@@ -242,6 +242,7 @@ export default function Generater() {
             >
               <button
                 style={{ padding: "4px 8px" }}
+                disabled
                 onClick={() => setTextColor("rgba(0, 0, 0, 0.85")}
               >
                 黒文字
