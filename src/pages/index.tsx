@@ -4,6 +4,7 @@ import styles from "~/styles/Home.module.css";
 import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
+const domain = process.env.NODE_ENV === "production" ? "/image-generater" : "";
 
 export default function Home() {
   return (
@@ -13,12 +14,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      <main className={styles.main} style={{backgroundImage: `url(${domain}/background-image.png)`}}>
         <div className={styles.description}>
           <div>
             <a href="https://yoku.co.jp/" target="_blank" rel="noreferrer">
               {/* eslint-disable @next/next/no-img-element */}
-              <img src="/producer-image.png" alt="produced by YOKU" />
+              <img src={`${domain}/producer-image.png`} alt="produced by YOKU" />
             </a>
           </div>
         </div>
