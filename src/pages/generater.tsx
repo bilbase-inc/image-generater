@@ -10,6 +10,7 @@ import {
 import styles from "~/styles/Home.module.css";
 
 const domain = process.env.NODE_ENV === "production" ? "/image-generater" : "";
+const defaultImage = `${domain}/background-images/yoku-black.png`
 const imagePaths = [
   // `${domain}/background-images/gradient-blue.png`,
   // `${domain}/background-images/gradient-green.png`,
@@ -28,17 +29,16 @@ const imagePaths = [
   // `${domain}/background-images/polyhedron-green.png`,
   // `${domain}/background-images/polyhedron-orange.png`,
   // `${domain}/background-images/polyhedron-rainbow.png`,
-  `${domain}/background-images/yoku-black.png`,
+  defaultImage,
 ];
+const placeholderText = "超PayPay祭りを支える\n購入導線の負荷対策について"
 const canvasWidth = 1280;
 const canvasHeight = 720;
 
 export default function Generater() {
-  const [selectedPath, setSelectedPath] = useState<string>("");
+  const [selectedPath, setSelectedPath] = useState<string>(defaultImage);
   const [inputImage, setInputImage] = useState<File | null>(null);
-  const [inputText, setInputText] = useState<string>(
-    "超PayPay祭りを支える\n購入導線の負荷対策について"
-  );
+  const [inputText, setInputText] = useState<string>(placeholderText);
   const [textColor, setTextColor] = useState<string>("rgba(255, 255, 255)");
   const [png, setPng] = useState<string | null>(null);
   const imageInputRef = createRef<HTMLInputElement>();
@@ -229,6 +229,7 @@ export default function Generater() {
           >
             <textarea
               style={{ width: "250px", height: "100px", padding: "4px 8px" }}
+              placeholder={placeholderText}
               onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
                 setInputText(event.target.value)
               }

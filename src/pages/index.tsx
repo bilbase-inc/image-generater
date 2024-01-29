@@ -9,32 +9,32 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Image Generater</title>
-        <meta name="description" content="ImageGenerater by kawano-020" />
+        <title>画像作成 | BuildersIO</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
           <div>
-            <a href="https://github.com/kawano-020" target="_blank" rel="noreferrer">
-              By kawano-020
+            <a href="https://yoku.co.jp/" target="_blank" rel="noreferrer">
+              {/* eslint-disable @next/next/no-img-element */}
+              <img src="/producer-image.png" alt="produced by YOKU" />
             </a>
           </div>
         </div>
         <div className={styles.center}>
-          <h1>Image Generater</h1>
+          <h1>BuildersIO Image</h1>
           <div>
             <Link href="/generater" className={styles.card}>
               <h2 className={inter.className}>
-                Get Started <span>-&gt;</span>
+                生成する <span>-&gt;</span>
               </h2>
             </Link>
           </div>
         </div>
         <div>
           <a
-            href="https://github.com/kawano-020/image_generater"
+            href="https://github.com/bilbase-inc/image-generater"
             className={styles.card}
             target="_blank"
             rel="noreferrer"
