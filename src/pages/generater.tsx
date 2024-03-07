@@ -152,7 +152,7 @@ export default function Generater() {
     <>
       <Head>
         <title>Image Generater</title>
-        <meta name="description" content="ImageGenerater by kawano-020" />
+        <meta name="description" content="ImageGenerater produced by YOKU" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
